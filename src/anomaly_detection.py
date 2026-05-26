@@ -6,10 +6,11 @@ from sklearn.ensemble import IsolationForest
 # LOAD DATASET
 # ======================================
 
-df = pd.read_csv(
+import os
 
-    "../data/processed/cleaned_walmart_dataset.csv"
-)
+# Purana line hatao aur ye daalo:
+file_path = os.path.join(os.getcwd(), 'data', 'processed', 'cleaned_walmart_dataset.csv')
+df = pd.read_csv(file_path)
 
 # ======================================
 # ANOMALY DETECTION FUNCTION
