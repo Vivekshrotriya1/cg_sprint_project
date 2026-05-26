@@ -19,14 +19,14 @@ router = APIRouter()
 # ======================================
 # LOAD MODEL
 # ======================================
+import os
 
-model = pickle.load(
+# '../' hatao aur '/app/' use karo
+model_path = os.path.join('/app', 'models', 'walmart_pipeline_model.pkl')
 
-    open(
-        "../models/walmart_pipeline_model.pkl",
-        "rb"
-    )
-)
+# Ab file load karo
+with open(model_path, 'rb') as f:
+    model = pickle.load(f)
 
 # ======================================
 # PREDICTION API
