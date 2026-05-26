@@ -1,6 +1,13 @@
+import sys
+import os
+
+# --- PATH HACK: Taaki Python bina kisi prefix ke har folder ko access kar sake ---
+# Isse tumhare saare imports (database, routes, etc.) bina error ke chalenge
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI
 
-# Imports update kiye hain taaki 'api.' prefix ke saath modules mil sakein
+# Ab imports asani se chalenge
 from api.routes.prediction import router as prediction_router
 from api.database import prediction_collection
 from api.routes.ingestion import router as ingestion_router
@@ -42,9 +49,7 @@ def get_all_predictions():
         predictions = list(
             prediction_collection.find(
                 {},
-                {
-                    "_id": 0
-                }
+                {"_id": 0}
             )
         )
         return {
