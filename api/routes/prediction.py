@@ -8,7 +8,7 @@ import pickle
 # IMPORT DATABASE COLLECTION
 # ======================================
 
-from database import retail_collection
+from api.database import retail_collection
 
 # ======================================
 # ROUTER

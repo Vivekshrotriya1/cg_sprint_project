@@ -14,9 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # PYTHONPATH set karo taaki modules mil sakein
-ENV PYTHONPATH=/app
+# Saare folders ko path mein add kar do
+ENV PYTHONPATH=/app:/app/api:/app/src:/app/agents:/app/blobstorage
 
 EXPOSE 8000
 
 # /app folder se hi start karo
+# /app folder se chalayein, lekin module ko directly import karein
 CMD ["python", "-m", "uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"]
