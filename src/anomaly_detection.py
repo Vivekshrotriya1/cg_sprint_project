@@ -7,9 +7,13 @@ from sklearn.ensemble import IsolationForest
 # ======================================
 
 import os
+import pandas as pd
 
-# Purana line hatao aur ye daalo:
-file_path = os.path.join(os.getcwd(), 'data', 'processed', 'cleaned_walmart_dataset.csv')
+# Docker container ke andar ka root path '/app' hota hai
+# Code locally aur container dono mein chale, isliye ye likho:
+base_path = os.getenv('BASE_PATH', '/app')
+file_path = os.path.join(base_path, 'data', 'processed', 'cleaned_walmart_dataset.csv')
+
 df = pd.read_csv(file_path)
 
 # ======================================

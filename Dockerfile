@@ -1,28 +1,22 @@
 FROM python:3.11-slim
 
+# System dependencies agar pandas/numpy ko zaroorat pade
+RUN apt-get update && apt-get install -y gcc g++ && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# 1. Pehle requirements copy ki
-COPY requirements.txt /app/
-
-# 2. Pip upgrade kiya
+COPY requirements.txt .
 RUN pip install --upgrade pip
+RUN pip install --no-cache-dir torch==2.2.2+cpu --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir -r requirements.txt
 
-# 3. Sabse pehle PyTorch ko alag se download karke cache karlo (with retries)
-RUN pip install --no-cache-dir --default-timeout=2000 --retries 10 torch==2.2.2+cpu --index-url https://download.pytorch.org/whl/cpu
+# Pura code copy karo
+COPY . .
 
-# 4. Ab baaki saare bache hue packages install karo
-RUN pip install --no-cache-dir --default-timeout=2000 --retries 10 -r requirements.txt
-
-# 5. Code copy karo
-COPY . /app
-
-# Sabse IMPORTANT: Docker ko batao ki /app aur /app/api dono jagah modules dhoonde
-ENV PYTHONPATH=/app:/app/api
+# PYTHONPATH set karo taaki modules mil sakein
+ENV PYTHONPATH=/app
 
 EXPOSE 8000
 
-# Server ko directly /app/api ke andar se chalayenge taki 'routes' asani se mil jaye
-WORKDIR /app/api
-
-CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# /app folder se hi start karo
+CMD ["python", "-m", "uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"]
